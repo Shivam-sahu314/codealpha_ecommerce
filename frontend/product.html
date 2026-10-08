@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Details</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header>
+
+        <h1>CodeAlpha Ecommerce</h1>
+
+        <nav>
+    <a href="index.html">Products</a>
+    <a href="cart.html">Cart 🛒</a>
+    <a href="orders.html">My Orders</a>
+    <a href="login.html">Login</a>
+</nav>
+
+    </header>
+
+
+    <main>
+
+        <h2>Product Details</h2>
+
+        <div id="productDetails"></div>
+
+    </main>
+
+
+    <script>
+
+        const API_URL = "http://localhost:3000/api/products";
+
+
+        // URL se product ID nikalna
+        const params = new URLSearchParams(window.location.search);
+
+        const productId = params.get("id");
+
+
+        async function getProduct() {
+
+            try {
+
+                const response = await fetch(`${API_URL}/${productId}`);
+
+                const product = await response.json();
+
+                console.log("Product:", product);
+
+                displayProduct(product);
+
+            } catch (error) {
+
+                console.log("Error:", error);
+
+            }
+
+        }
+
+
+        function displayProduct(product) {
+
+            const productDetails =
+                document.getElementById("productDetails");
+
+
+            productDetails.innerHTML = `
+
+                <div class="product-card">
+
+                    <img 
+                        src="${product.image}" 
+                        alt="${product.name}"
+                    >
+
+                    <h2>${product.name}</h2>
+
+                    <p>${product.description}</p>
+
+                    <h3>₹${product.price}</h3>
+
+                    <p>
+                        Category: ${product.category}
+                    </p>
+
+                    <p>
+                        Stock: ${product.stock}
+                    </p>
+
+                    <br>
+
+                    <button onclick="addToCart('${product._id}')">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            `;
+        }
+
+
+        function addToCart(productId) {
+
+            let cart =
+                JSON.parse(localStorage.getItem("cart")) || [];
+
+
+            const existingProduct = cart.find(
+                product => product._id === productId
+            );
+
+
+            if (existingProduct) {
+
+                existingProduct.quantity++;
+
+            } else {
+
+                const product = {
+
+                    _id: productId,
+
+                    name: document.querySelector(
+                        "#productDetails h2"
+                    ).innerText,
+
+                    price: Number(
+                        document.querySelector(
+                            "#productDetails h3"
+                        ).innerText.replace("₹", "")
+                    ),
+
+                    image: document.querySelector(
+                        "#productDetails img"
+                    ).src,
+
+                    quantity: 1
+                };
+
+
+                cart.push(product);
+            }
+
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+
+            alert("Product added to cart!");
+        }
+
+
+        getProduct();
+
+    </script>
+<script src="js/auth.js"></script>
+</body>
+
+</html>
