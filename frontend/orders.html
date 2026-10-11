@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>CodeAlpha Ecommerce</h1>
+        <nav>
+            <a href="index.html">Products</a>
+            <a href="cart.html">Cart 🛒</a>
+            <a href="orders.html">My Orders</a>
+            <a href="login.html">Login</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>My Orders</h2>
+        <div id="ordersList"></div>
+    </main>
+
+    <script>
+        const ordersList = document.getElementById("ordersList");
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("Please login first!");
+            window.location.href = "login.html";
+        } else {
+            getOrders();
+        }
+
+        async function getOrders() {
+            try {
+                const response = await fetch(
+                    "http://localhost:3000/api/orders/my-orders",
+                    {
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    }
+                );
+
+                const orders = await response.json();
+
+                if (!response.ok) {
+                    ordersList.textContent =
+                        orders.message || "Failed to load orders.";
+                    return;
+                }
+
+                if (!Array.isArray(orders)) {
+                    ordersList.textContent = "Unexpected order data received.";
+                    return;
+                }
+
+                displayOrders(orders);
+            } catch (error) {
+                console.error("Error loading orders:", error);
+                ordersList.textContent = "Failed to load orders.";
+            }
+        }
+
+        function displayOrders(orders) {
+            ordersList.innerHTML = "";
+
+            if (orders.length === 0) {
+                ordersList.textContent = "No orders found.";
+                return;
+            }
+
+            orders.forEach(order => {
+                let productsHTML = "";
+
+                (order.products || []).forEach(item => {
+                    const productName = item.product
+                        ? item.product.name
+                        : "Product no longer available";
+
+                    const quantity = item.quantity ?? 0;
+
+                    productsHTML += `
+                        <p>
+                            ${productName}
+                            × ${quantity}
+                        </p>
+                    `;
+                });
+
+                const orderCard = document.createElement("div");
+                orderCard.className = "product-card";
+
+                orderCard.innerHTML = `
+                    <h3>Order ID: ${order._id}</h3>
+                    <p>Status: ${order.status || "Unknown"}</p>
+                    <h3>Total: ₹${order.totalAmount ?? 0}</h3>
+                    <h4>Products:</h4>
+                    ${productsHTML || "<p>No product details available.</p>"}
+                `;
+
+                ordersList.appendChild(orderCard);
+            });
+        }
+    </script>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

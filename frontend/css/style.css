@@ -1,0 +1,315 @@
+/* ===============================
+   RESET
+================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+}
+
+
+/* ===============================
+   HEADER
+================================ */
+
+header {
+    background: #222;
+    color: white;
+
+    padding: 18px 5%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 1000;
+}
+
+
+header h1 {
+    font-size: 24px;
+}
+
+
+nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+
+/* ===============================
+   MAIN
+================================ */
+
+main {
+    width: 90%;
+    max-width: 1200px;
+
+    margin: 40px auto;
+}
+
+
+main > h2 {
+    margin-bottom: 25px;
+}
+
+
+/* ===============================
+   PRODUCT GRID
+================================ */
+
+.product-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 25px;
+}
+
+
+/* ===============================
+   PRODUCT CARD
+================================ */
+
+.product-card {
+    background: white;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+
+.product-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+
+.product-card img {
+    width: 100%;
+
+    height: 220px;
+
+    object-fit: cover;
+
+    border-radius: 10px;
+
+    margin-bottom: 12px;
+}
+
+
+.product-card h3 {
+    margin-bottom: 8px;
+}
+
+
+.product-card p {
+    color: #555;
+
+    margin-bottom: 10px;
+
+    line-height: 1.5;
+}
+
+
+/* ===============================
+   BUTTON
+================================ */
+
+button {
+    border: none;
+
+    background: #222;
+
+    color: white;
+
+    padding: 10px 18px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+
+button:hover {
+    background: #444;
+}
+
+
+/* ===============================
+   FORMS
+================================ */
+
+form {
+    background: white;
+
+    max-width: 450px;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.08);
+
+    margin-bottom: 20px;
+}
+
+
+form input {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+}
+
+
+form input:focus {
+    outline: none;
+
+    border-color: #555;
+}
+
+
+/* ===============================
+   CART
+================================ */
+
+#cartItems {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 25px;
+}
+
+
+.cart-summary {
+    background: white;
+
+    margin-top: 30px;
+
+    padding: 25px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+.cart-summary h2 {
+    margin-bottom: 20px;
+}
+
+
+/* ===============================
+   ORDERS
+================================ */
+
+#ordersList {
+    display: grid;
+
+    gap: 20px;
+}
+
+
+#ordersList .product-card {
+    max-width: 700px;
+}
+
+
+#ordersList h3 {
+    margin-bottom: 12px;
+}
+
+
+#ordersList p {
+    margin-bottom: 8px;
+}
+
+
+/* ===============================
+   MOBILE RESPONSIVE
+================================ */
+
+@media (max-width: 700px) {
+
+    header {
+        flex-direction: column;
+
+        gap: 15px;
+
+        text-align: center;
+    }
+
+
+    nav {
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 12px;
+    }
+
+
+    main {
+        width: 92%;
+
+        margin: 25px auto;
+    }
+
+
+    header h1 {
+        font-size: 20px;
+    }
+
+
+    .product-card img {
+        height: 200px;
+    }
+
+}
